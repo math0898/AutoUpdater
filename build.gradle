@@ -19,6 +19,7 @@ repositories {
 
 dependencies {
     compileOnly 'io.papermc.paper:paper-api:1.18.1-R0.1-SNAPSHOT'
+    compileOnly 'org.eclipse.jgit:org.eclipse.jgit:6.0.0.202111291000-r'
 }
 
 def targetJavaVersion = 17

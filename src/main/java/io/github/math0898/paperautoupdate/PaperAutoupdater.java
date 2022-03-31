@@ -42,6 +42,6 @@ public final class PaperAutoupdater extends JavaPlugin {
         PLUGIN = this;
         File container = new File("./plugins/PaperUpdater/Paper/");
         if (!container.exists()) container.mkdirs();
-        Bukkit.getScheduler().runTaskLater(PLUGIN, Updater::update, 20 * 60 * 60 * 12); // Run every 12 hours
+        Bukkit.getScheduler().runTaskLater(PLUGIN, () -> new Thread(Updater::update).start(), 20 * 60 * 60 * 12); // Run every 12 hours
     }
 }
