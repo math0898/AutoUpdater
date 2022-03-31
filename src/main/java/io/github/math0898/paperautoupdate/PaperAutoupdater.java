@@ -36,6 +36,15 @@ public final class PaperAutoupdater extends JavaPlugin {
     public static JavaPlugin PLUGIN;
 
     /**
+     * A main way to run the plugin just because why not.
+     *
+     * @param args The arguments given by the commandline.
+     */
+    public static void main (String[] args) {
+        System.out.println("What");
+    }
+
+    /**
      * Called when the plugin is enabled.
      */
     @Override
