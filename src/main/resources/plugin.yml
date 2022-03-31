@@ -4,3 +4,8 @@ main: io.github.math0898.paperautoupdate.PaperAutoupdater
 api-version: 1.18
 authors: [ Sugaku ]
 description: This plugin automatically clones, and pulls from the offical PaperMC Github. Then it builds the server jar before replacing the one currently running. After a restart this will result in an updated paper build.
+commands:
+  update:
+    description: Updates the server jar.
+    usage: /update
+    permission: paper.update

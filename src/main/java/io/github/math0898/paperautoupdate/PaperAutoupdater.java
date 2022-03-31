@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.Objects;
 
 /**
  * Main class for PaperAutoupdater.
@@ -41,6 +42,7 @@ public final class PaperAutoupdater extends JavaPlugin {
     public void onEnable () {
         PLUGIN = this;
         File container = new File("./plugins/PaperUpdater/Paper/");
+        Objects.requireNonNull(Bukkit.getPluginCommand("update")).setExecutor(UpdateCommand.executor);
         if (!container.exists()) container.mkdirs();
         Bukkit.getScheduler().runTaskLater(PLUGIN, () -> new Thread(Updater::update).start(), 20 * 60 * 60 * 12); // Run every 12 hours
     }
