@@ -35,19 +35,19 @@ public class PaperUpdater implements Updater {
      */
     @Override
     public void update (boolean schedule) {
-        PLUGIN.getLogger().log(Level.INFO, "Attempting to update paper...");
+        plugin.getLogger().log(Level.INFO, "Attempting to update paper...");
         if (!IS_REMOTE_CLONED) {
-            PLUGIN.getLogger().log(Level.INFO, "Cloning remote repository...");
+            plugin.getLogger().log(Level.INFO, "Cloning remote repository...");
             GitFacade.clone(REMOTE_URL, "./plugins/AutoUpdater/Paper/");
-            PLUGIN.getLogger().log(Level.INFO, "Cloned remote repository.");
+            plugin.getLogger().log(Level.INFO, "Cloned remote repository.");
             IS_REMOTE_CLONED = true;
         }
-        PLUGIN.getLogger().log(Level.INFO, "Fetching updates...");
+        plugin.getLogger().log(Level.INFO, "Fetching updates...");
         GitFacade.pull("./plugins/AutoUpdater/Paper/");
-        PLUGIN.getLogger().log(Level.INFO, "Fetched updates.");
+        plugin.getLogger().log(Level.INFO, "Fetched updates.");
         File[] files = new File("./plugins/AutoUpdater/Paper/build/libs").listFiles();
         if (files != null) for (File file : files) if (file.getName().endsWith(".jar")) file.delete();
-        PLUGIN.getLogger().log(Level.INFO, "Building paper.jar...");
+        plugin.getLogger().log(Level.INFO, "Building paper.jar...");
         File gradlew = new File("./plugins/AutoUpdater/Paper/gradlew");
         try {
             // Apply patches
@@ -61,20 +61,20 @@ public class PaperUpdater implements Updater {
             p = pb.start();
             p.waitFor();
         } catch (Exception e) {
-            PLUGIN.getLogger().log(Level.SEVERE, "Failed to build paper.jar!");
+            plugin.getLogger().log(Level.SEVERE, "Failed to build paper.jar!");
             return;
         } finally {
-            PLUGIN.getLogger().log(Level.INFO, "Built paper.jar.");
+            plugin.getLogger().log(Level.INFO, "Built paper.jar.");
         }
         files = new File("./plugins/AutoUpdater/Paper/build/libs").listFiles();
         if (files != null) for (File file : files) if (file.getName().endsWith(".jar")) {
-            PLUGIN.getLogger().log(Level.INFO, "Copying paper.jar to server folder...");
+            plugin.getLogger().log(Level.INFO, "Copying paper.jar to server folder...");
             file.renameTo(new File("./paper.jar"));
             break;
         }
-        PLUGIN.getLogger().log(Level.INFO, "Copied paper.jar to server folder.");
-        PLUGIN.getLogger().log(Level.INFO, "Paper updated! This will be applied on the next server restart.");
-        if (schedule) Bukkit.getScheduler().runTaskLater(PLUGIN, () -> new Thread(this::update).start(), interval); // Run every 12 hours
+        plugin.getLogger().log(Level.INFO, "Copied paper.jar to server folder.");
+        plugin.getLogger().log(Level.INFO, "Paper updated! This will be applied on the next server restart.");
+        if (schedule) Bukkit.getScheduler().runTaskLater(plugin, () -> new Thread(this::update).start(), interval); // Run every 12 hours
     }
 
     /**
@@ -93,6 +93,6 @@ public class PaperUpdater implements Updater {
     @Override
     public void schedule (long interval) {
         this.interval = interval * 20;
-        Bukkit.getScheduler().runTaskLaterAsynchronously(PLUGIN, () -> new Thread(this::update).start(), this.interval);
+        Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> new Thread(this::update).start(), this.interval);
     }
 }

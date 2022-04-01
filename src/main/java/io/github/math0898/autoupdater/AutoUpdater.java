@@ -4,13 +4,11 @@ import io.github.math0898.autoupdater.updaters.GradleBuilder;
 import io.github.math0898.autoupdater.updaters.PaperUpdater;
 import org.apache.commons.lang.SystemUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.logging.Level;
 
 /**
  * Main class for AutoUpdater.
@@ -38,12 +36,17 @@ public final class AutoUpdater extends JavaPlugin {
     /**
      * The current plugin instance.
      */
-    public static JavaPlugin PLUGIN;
+    public static JavaPlugin plugin;
 
     /**
      * The UpdateManager instance to be used with this plugin.
      */
     public static UpdateManager updateManager = new UpdateManager();
+
+    /**
+     * Prefix for messages sent to the server.
+     */
+    public static final String prefix = ConsoleColors.BLACK.getValue() + "[" + ConsoleColors.CYAN.getValue() + "AutoUpdater" + ConsoleColors.BLACK.getValue() + "] ";
 
     /**
      * Sends the given string to the console at the information level.
@@ -61,9 +64,7 @@ public final class AutoUpdater extends JavaPlugin {
      * @param color   The color of the message.
      */
     public static void console (String message, ConsoleColors color) {
-        PLUGIN.getLogger().log(Level.INFO,
-                ConsoleColors.BLACK.getValue() + "[" + ConsoleColors.CYAN.getValue() + "AutoUpdater" + ConsoleColors.BLACK.getValue() + "] "
-                        + color.getValue() + message);
+        Bukkit.getConsoleSender().sendMessage(prefix + color.getValue() + message);
     }
 
     /**
@@ -71,7 +72,7 @@ public final class AutoUpdater extends JavaPlugin {
      */
     @Override
     public void onEnable () {
-        PLUGIN = this;
+        plugin = this;
         saveResources();
         Objects.requireNonNull(Bukkit.getPluginCommand("update")).setExecutor(UpdateCommand.executor);
         Objects.requireNonNull(Bukkit.getPluginCommand("update")).setTabCompleter(UpdateCommand.tabCompleter);

@@ -4,7 +4,7 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 
 import java.util.logging.Level;
-import static io.github.math0898.autoupdater.AutoUpdater.PLUGIN;
+import static io.github.math0898.autoupdater.AutoUpdater.plugin;
 
 /**
  * The GitFacade functions as a layer between JGit and the PaperAutoUpdater.
@@ -23,7 +23,7 @@ public class GitFacade {
         try {
             Git.cloneRepository().setCloneSubmodules(true).setURI(url).setDirectory(new java.io.File(directory)).call();
         } catch (GitAPIException ex) {
-            PLUGIN.getLogger().log(Level.SEVERE, "Failed to clone repository.", ex);
+            plugin.getLogger().log(Level.SEVERE, "Failed to clone repository.", ex);
         }
     }
 
@@ -36,7 +36,7 @@ public class GitFacade {
         try {
             Git.open(new java.io.File(directory)).pull().call();
         } catch (Exception ex) {
-            PLUGIN.getLogger().log(Level.SEVERE, "Failed to pull repository.", ex);
+            plugin.getLogger().log(Level.SEVERE, "Failed to pull repository.", ex);
         }
     }
 }

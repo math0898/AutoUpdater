@@ -98,7 +98,7 @@ public class GradleBuilder implements Updater {
             break;
         }
         console("Successfully updated " + name + ". New version will be applied after restart.", ConsoleColors.GREEN);
-        if (schedule) Bukkit.getScheduler().runTaskLater(PLUGIN, () -> update(), interval);
+        if (schedule) Bukkit.getScheduler().runTaskLater(plugin, () -> update(), interval);
     }
 
     /**
@@ -117,6 +117,6 @@ public class GradleBuilder implements Updater {
     @Override
     public void schedule (long interval) {
         this.interval = interval * 20;
-        Bukkit.getScheduler().runTaskLaterAsynchronously(PLUGIN, () -> new Thread(this::update).start(), this.interval);
+        Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> new Thread(this::update).start(), this.interval);
     }
 }
