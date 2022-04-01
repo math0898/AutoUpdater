@@ -9,7 +9,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.util.Objects;
-import java.util.logging.Level;
 
 /**
  * Main class for PaperAutoupdater.
@@ -60,7 +59,7 @@ public final class PaperAutoupdater extends JavaPlugin {
      * @param color   The color of the message.
      */
     public static void console (String message, ChatColor color) {
-        PLUGIN.getLogger().log(Level.INFO, color + message);
+        Bukkit.getConsoleSender().sendMessage(color + message);
     }
 
     /**
