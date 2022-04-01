@@ -2,6 +2,7 @@ package io.github.math0898.autoupdater;
 
 import io.github.math0898.autoupdater.updaters.Updater;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,17 @@ public class UpdateManager {
      * A map of updaters.
      */
     private final Map<String, Updater> updaters = new HashMap<>();
+
+    /**
+     * Creates all the updaters from the local YAML files.
+     */
+    private void createUpdaters () {
+        File[] files = new File("./plugins/AutoUpdater/").listFiles();
+        for (File f : files) {
+            if (!f.getName().contains(".yml")) continue;
+            else if (f.getName().equals("config.yml")) continue;
+        }
+    }
 
     /**
      * Returns a list of updaters that can be accessed.

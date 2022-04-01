@@ -8,10 +8,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
- * Main class for PaperAutoupdater.
+ * Main class for AutoUpdater.
  *
  * @author Sugaku
  */
@@ -68,13 +69,21 @@ public final class AutoUpdater extends JavaPlugin {
     @Override
     public void onEnable () {
         PLUGIN = this;
-        File container = new File("./plugins/AutoUpdater/");
-        if (!container.exists()) container.mkdirs();
+        saveResources();
         Objects.requireNonNull(Bukkit.getPluginCommand("update")).setExecutor(UpdateCommand.executor);
         Objects.requireNonNull(Bukkit.getPluginCommand("update")).setTabCompleter(UpdateCommand.tabCompleter);
         updateManager.addUpdater("Paper", new PaperUpdater());
         updateManager.addUpdater("AutoUpdater",new GradleBuilder("https://github.com/math0898/AutoUpdater.git", "AutoUpdater"));
         updateManager.scheduleUpdater("Paper");
         updateManager.scheduleUpdater("AutoUpdater");
+    }
+
+    /**
+     * Saves all the resources in this plugin to the plugin folder.
+     */
+    public void saveResources () {
+        for (String s : Arrays.asList("Paper.yml", "config.yml", "auto-updater.yml"))
+            if (!new File("./plugins/AutoUpdater/" + s).exists())
+                this.saveResource(s, false);
     }
 }

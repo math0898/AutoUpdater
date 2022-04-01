@@ -1,14 +1,16 @@
-# The auto-updater defines updating rules for this plugin.
+# The Paper defines update rules for paper.
 enabled: true
 interval: 43200 # 12 hours
+# This updater follows its own unique rules.
+special-updater: 'Paper'
 # Sets a preference between using a mirror to download a pre-built copy or building one from source.
 prefer: 'build'
-target-file: 'AutoUpdater.jar'
+target-file: 'paper.jar'
 mirror:
   url: ''
 build:
-  repository-url: 'https://github.com/math0898/PaperUpdater.git'
-  repository-name: 'PaperUpdater'
+  repository-url: 'https://github.com/PaperMC/Paper.git'
+  repository-name: 'Paper'
   build-system: 'gradle'
   # Should the local repository be wiped before attempting to build?
   clean-build: false
