@@ -23,7 +23,7 @@ public final class PaperAutoupdater extends JavaPlugin {
     /**
      * Whether the remote PaperMC repository has been cloned or not yet.
      */
-    public static final boolean IS_REMOTE_CLONED = false;
+    public static boolean IS_REMOTE_CLONED = new File("./plugins/PaperUpdater/Paper/gradlew").exists();
 
     /**
      * The url of the remote PaperMC repository.

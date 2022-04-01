@@ -21,7 +21,7 @@ public class GitFacade {
      */
     public static void clone (String url, String directory) {
         try {
-            Git.cloneRepository().setURI(url).setDirectory(new java.io.File(directory)).call();
+            Git.cloneRepository().setCloneSubmodules(true).setURI(url).setDirectory(new java.io.File(directory)).call();
         } catch (GitAPIException ex) {
             PLUGIN.getLogger().log(Level.SEVERE, "Failed to clone repository.", ex);
         }
