@@ -2,7 +2,6 @@ package io.github.math0898.autoupdater;
 
 import io.github.math0898.autoupdater.updaters.GradleBuilder;
 import io.github.math0898.autoupdater.updaters.PaperUpdater;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.apache.commons.lang.SystemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -52,7 +51,7 @@ public final class AutoUpdater extends JavaPlugin {
      * @param message The message to send to the console.
      */
     public static void console (String message) {
-        console(message, ChatColor.GRAY);
+        console(message, ConsoleColors.RESET);
     }
 
     /**
@@ -61,8 +60,10 @@ public final class AutoUpdater extends JavaPlugin {
      * @param message The message to send to the console.
      * @param color   The color of the message.
      */
-    public static void console (String message, ChatColor color) {
-        PLUGIN.getLogger().log(Level.INFO, ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "AutoUpdater" + ChatColor.DARK_GRAY + "] " + color + message);
+    public static void console (String message, ConsoleColors color) {
+        PLUGIN.getLogger().log(Level.INFO,
+                ConsoleColors.BLACK.getValue() + "[" + ConsoleColors.CYAN.getValue() + "AutoUpdater" + ConsoleColors.BLACK.getValue() + "] "
+                        + color.getValue() + message);
     }
 
     /**
