@@ -11,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.logging.Level;
 
 /**
  * Main class for AutoUpdater.
@@ -61,8 +62,7 @@ public final class AutoUpdater extends JavaPlugin {
      * @param color   The color of the message.
      */
     public static void console (String message, ChatColor color) {
-        Bukkit.getConsoleSender().sendMessage(LegacyComponentSerializer.legacySection().deserialize(
-                ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "AutoUpdater" + ChatColor.DARK_GRAY + "] " + color + message));
+        PLUGIN.getLogger().log(Level.INFO, ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "AutoUpdater" + ChatColor.DARK_GRAY + "] " + color + message);
     }
 
     /**
