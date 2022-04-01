@@ -1,8 +1,8 @@
 package io.github.math0898.autoupdater.updaters;
 
-import io.github.math0898.autoupdater.ConsoleColors;
 import io.github.math0898.autoupdater.GitFacade;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 
 import java.io.File;
 
@@ -66,18 +66,18 @@ public class GradleBuilder implements Updater {
     public void update (boolean schedule) {
         console("Attempting to update " + name + "...");
         if (!isCloned) {
-            console("Cloning repository...", ConsoleColors.BLACK);
+            console("Cloning repository...", ChatColor.DARK_GRAY);
             GitFacade.clone(url, "./plugins/AutoUpdater/" + name);
-            console("Cloned repository.", ConsoleColors.BLACK);
+            console("Cloned repository.", ChatColor.DARK_GRAY);
             isCloned = true;
         }
-        console("Fetching updates...", ConsoleColors.BLACK);
+        console("Fetching updates...", ChatColor.DARK_GRAY);
         GitFacade.pull("./plugins/AutoUpdater/" + name);
-        console("Fetched updates.", ConsoleColors.BLACK);
+        console("Fetched updates.", ChatColor.DARK_GRAY);
         File[] files = new File("./plugins/AutoUpdater/" + name + "/build/libs").listFiles();
         if (files != null) for (File file : files) if (file.getName().endsWith(".jar")) //noinspection ResultOfMethodCallIgnored
             file.delete();
-        console("Building project...", ConsoleColors.BLACK);
+        console("Building project...", ChatColor.DARK_GRAY);
         File gradlew = new File("./plugins/AutoUpdater/" + name + "/gradlew");
         try {
             ProcessBuilder processBuilder = new ProcessBuilder(gradlew.getAbsolutePath(), "build");
@@ -85,19 +85,19 @@ public class GradleBuilder implements Updater {
             Process process = processBuilder.start();
             process.waitFor();
         } catch (Exception e) {
-            console("Failed to build project.", ConsoleColors.BLACK);
+            console("Failed to build project.", ChatColor.DARK_GRAY);
             return;
         } finally {
-            console("Built project.", ConsoleColors.BLACK);
+            console("Built project.", ChatColor.DARK_GRAY);
         }
         files = new File("plugins/AutoUpdater/" + name + "/build/libs").listFiles();
         if (files != null) for (File file : files) if (file.getName().endsWith(".jar")) {
-            console("Copying jar to plugins folder...", ConsoleColors.BLACK);
-            if (file.renameTo(new File("./plugins/" + name + ".jar"))) console("Copied jar to plugins folder.", ConsoleColors.BLACK);
-            else console("Failed to copy jar to plugins folder.", ConsoleColors.RED);
+            console("Copying jar to plugins folder...", ChatColor.DARK_GRAY);
+            if (file.renameTo(new File("./plugins/" + name + ".jar"))) console("Copied jar to plugins folder.", ChatColor.DARK_GRAY);
+            else console("Failed to copy jar to plugins folder.", ChatColor.RED);
             break;
         }
-        console("Successfully updated " + name + ". New version will be applied after restart.", ConsoleColors.GREEN);
+        console("Successfully updated " + name + ". New version will be applied after restart.", ChatColor.GREEN);
         if (schedule) Bukkit.getScheduler().runTaskLater(plugin, () -> update(), interval);
     }
 

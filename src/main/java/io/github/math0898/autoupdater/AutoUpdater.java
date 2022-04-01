@@ -4,6 +4,7 @@ import io.github.math0898.autoupdater.updaters.GradleBuilder;
 import io.github.math0898.autoupdater.updaters.PaperUpdater;
 import org.apache.commons.lang.SystemUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -54,7 +55,7 @@ public final class AutoUpdater extends JavaPlugin {
      * @param message The message to send to the console.
      */
     public static void console (String message) {
-        console(message, ConsoleColors.RESET);
+        console(message, ChatColor.GRAY);
     }
 
     /**
@@ -63,8 +64,8 @@ public final class AutoUpdater extends JavaPlugin {
      * @param message The message to send to the console.
      * @param color   The color of the message.
      */
-    public static void console (String message, ConsoleColors color) {
-        Bukkit.getConsoleSender().sendMessage(prefix + color.getValue() + message);
+    public static void console (String message, ChatColor color) {
+        Bukkit.getConsoleSender().sendMessage(prefix + color + message);
     }
 
     /**
