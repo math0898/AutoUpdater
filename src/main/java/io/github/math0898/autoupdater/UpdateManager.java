@@ -53,8 +53,10 @@ public class UpdateManager {
      * Updates all updaters.
      */
     public void updateAll () {
-        for (Updater updater : updaters.values())
-            new Thread(() -> updater.update(false)).start();
+        new Thread(() -> {
+            for (Updater updater : updaters.values())
+                updater.update(false);
+        }).start();
     }
 
     /**
