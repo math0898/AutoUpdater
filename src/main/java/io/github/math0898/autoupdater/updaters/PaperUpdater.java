@@ -38,26 +38,26 @@ public class PaperUpdater implements Updater {
         PLUGIN.getLogger().log(Level.INFO, "Attempting to update paper...");
         if (!IS_REMOTE_CLONED) {
             PLUGIN.getLogger().log(Level.INFO, "Cloning remote repository...");
-            GitFacade.clone(REMOTE_URL, "./plugins/PaperUpdater/Paper/");
+            GitFacade.clone(REMOTE_URL, "./plugins/AutoUpdater/Paper/");
             PLUGIN.getLogger().log(Level.INFO, "Cloned remote repository.");
             IS_REMOTE_CLONED = true;
         }
         PLUGIN.getLogger().log(Level.INFO, "Fetching updates...");
-        GitFacade.pull("./plugins/PaperUpdater/Paper/");
+        GitFacade.pull("./plugins/AutoUpdater/Paper/");
         PLUGIN.getLogger().log(Level.INFO, "Fetched updates.");
-        File[] files = new File("./plugins/PaperUpdater/Paper/build/libs").listFiles();
+        File[] files = new File("./plugins/AutoUpdater/Paper/build/libs").listFiles();
         if (files != null) for (File file : files) if (file.getName().endsWith(".jar")) file.delete();
         PLUGIN.getLogger().log(Level.INFO, "Building paper.jar...");
-        File gradlew = new File("./plugins/PaperUpdater/Paper/gradlew");
+        File gradlew = new File("./plugins/AutoUpdater/Paper/gradlew");
         try {
             // Apply patches
             ProcessBuilder pb = new ProcessBuilder(gradlew.getAbsolutePath(), "applyPatches");
-            pb.directory(new File("./plugins/PaperUpdater/Paper/"));
+            pb.directory(new File("./plugins/AutoUpdater/Paper/"));
             Process p = pb.start();
             p.waitFor();
             // Create jar
             pb = new ProcessBuilder(gradlew.getAbsolutePath(), "createReobfBundlerJar");
-            pb.directory(new File("./plugins/PaperUpdater/Paper/"));
+            pb.directory(new File("./plugins/AutoUpdater/Paper/"));
             p = pb.start();
             p.waitFor();
         } catch (Exception e) {
@@ -66,7 +66,7 @@ public class PaperUpdater implements Updater {
         } finally {
             PLUGIN.getLogger().log(Level.INFO, "Built paper.jar.");
         }
-        files = new File("./plugins/PaperUpdater/Paper/build/libs").listFiles();
+        files = new File("./plugins/AutoUpdater/Paper/build/libs").listFiles();
         if (files != null) for (File file : files) if (file.getName().endsWith(".jar")) {
             PLUGIN.getLogger().log(Level.INFO, "Copying paper.jar to server folder...");
             file.renameTo(new File("./paper.jar"));

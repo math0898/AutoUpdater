@@ -45,7 +45,7 @@ public class GradleBuilder implements Updater {
     public GradleBuilder (String url, String name) {
         this.url = url;
         this.name = name;
-        isCloned = new File("./plugins/PaperUpdater/" + name + "/gradlew").exists();
+        isCloned = new File("./plugins/AutoUpdater/" + name + "/gradlew").exists();
     }
 
     /**
@@ -67,18 +67,18 @@ public class GradleBuilder implements Updater {
         console("Attempting to update " + name + "...");
         if (!isCloned) {
             console("Cloning repository...", ChatColor.DARK_GRAY);
-            GitFacade.clone(url, "./plugins/PaperUpdater/" + name);
+            GitFacade.clone(url, "./plugins/AutoUpdater/" + name);
             console("Cloned repository.", ChatColor.DARK_GRAY);
             isCloned = true;
         }
         console("Fetching updates...", ChatColor.DARK_GRAY);
-        GitFacade.pull("./plugins/PaperUpdater/" + name);
+        GitFacade.pull("./plugins/AutoUpdater/" + name);
         console("Fetched updates.", ChatColor.DARK_GRAY);
-        File[] files = new File("./plugins/PaperUpdater/" + name + "/build/libs").listFiles();
+        File[] files = new File("./plugins/AutoUpdater/" + name + "/build/libs").listFiles();
         if (files != null) for (File file : files) if (file.getName().endsWith(".jar")) //noinspection ResultOfMethodCallIgnored
             file.delete();
         console("Building project...", ChatColor.DARK_GRAY);
-        File gradlew = new File("./plugins/PaperUpdater/" + name + "/gradlew");
+        File gradlew = new File("./plugins/AutoUpdater/" + name + "/gradlew");
         try {
             ProcessBuilder processBuilder = new ProcessBuilder(gradlew.getAbsolutePath(), "build");
             processBuilder.directory(gradlew.getParentFile());
@@ -90,7 +90,7 @@ public class GradleBuilder implements Updater {
         } finally {
             console("Built project.", ChatColor.DARK_GRAY);
         }
-        files = new File("plugins/PaperUpdater/" + name + "/build/libs").listFiles();
+        files = new File("plugins/AutoUpdater/" + name + "/build/libs").listFiles();
         if (files != null) for (File file : files) if (file.getName().endsWith(".jar")) {
             console("Copying jar to plugins folder...", ChatColor.DARK_GRAY);
             if (file.renameTo(new File("./plugins/" + name + ".jar"))) console("Copied jar to plugins folder.", ChatColor.DARK_GRAY);
