@@ -50,6 +50,14 @@ public class UpdateManager {
     }
 
     /**
+     * Updates all updaters.
+     */
+    public void updateAll () {
+        for (Updater updater : updaters.values())
+            new Thread(() -> updater.update(false)).start();
+    }
+
+    /**
      * Schedules the updater with the given name to run in the future. This will schedule them every 12 hours.
      *
      * @param name The name of the updater to schedule.

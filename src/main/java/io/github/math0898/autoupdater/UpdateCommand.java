@@ -21,6 +21,7 @@ public class UpdateCommand {
     public static TabCompleter tabCompleter = (sender, command, alias, args) -> {
         if (command.getName().equalsIgnoreCase("update")) {
             List<String> toReturn = updateManager.getUpdaters();
+            toReturn.add("all");
             if (args.length != 1) toReturn.removeIf(s -> !s.startsWith(args[0]));
             return toReturn;
         }
@@ -35,7 +36,8 @@ public class UpdateCommand {
             commandSender.sendMessage(ChatColor.RED + "Please specify an update target.");
             return true;
         }
-        updateManager.runUpdater(args[0]);
+        if (args[0].equalsIgnoreCase("all")) updateManager.updateAll();
+        else updateManager.runUpdater(args[0]);
         commandSender.sendMessage("Started updating...");
         commandSender.sendMessage("Check console for updates.");
         return true;
