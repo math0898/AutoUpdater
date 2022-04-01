@@ -26,7 +26,7 @@ public final class AutoUpdater extends JavaPlugin {
     /**
      * Whether the remote PaperMC repository has been cloned or not yet.
      */
-    public static boolean IS_REMOTE_CLONED = new File("./plugins/PaperUpdater/Paper/gradlew").exists();
+    public static boolean IS_REMOTE_CLONED = new File("./plugins/AutoUpdater/Paper/gradlew").exists();
 
     /**
      * The url of the remote PaperMC repository.
@@ -68,7 +68,7 @@ public final class AutoUpdater extends JavaPlugin {
     @Override
     public void onEnable () {
         PLUGIN = this;
-        File container = new File("./plugins/PaperUpdater/");
+        File container = new File("./plugins/AutoUpdater/");
         if (!container.exists()) container.mkdirs();
         Objects.requireNonNull(Bukkit.getPluginCommand("update")).setExecutor(UpdateCommand.executor);
         Objects.requireNonNull(Bukkit.getPluginCommand("update")).setTabCompleter(UpdateCommand.tabCompleter);
