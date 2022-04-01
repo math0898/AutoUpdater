@@ -59,7 +59,7 @@ public final class PaperAutoupdater extends JavaPlugin {
      * @param color   The color of the message.
      */
     public static void console (String message, ChatColor color) {
-        Bukkit.getConsoleSender().sendMessage(color + message);
+        Bukkit.getConsoleSender().sendMessage(ChatColor.DARK_GRAY + "[" + ChatColor.AQUA + "AutoUpdater" + ChatColor.DARK_GRAY + "] " + color + message);
     }
 
     /**
