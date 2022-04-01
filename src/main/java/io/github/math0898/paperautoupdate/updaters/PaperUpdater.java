@@ -1,5 +1,6 @@
-package io.github.math0898.paperautoupdate;
+package io.github.math0898.paperautoupdate.updaters;
 
+import io.github.math0898.paperautoupdate.GitFacade;
 import org.bukkit.Bukkit;
 
 import java.io.File;
@@ -12,12 +13,18 @@ import static io.github.math0898.paperautoupdate.PaperAutoupdater.*;
  *
  * @author Sugaku
  */
-public class Updater {
+public class PaperUpdater implements Updater {
+
+    /**
+     * The interval between update checks.
+     */
+    private long interval;
 
     /**
      * Attempts to update paper.
      */
-    public static void update () {
+    @Override
+    public void update () {
         update(true);
     }
 
@@ -26,7 +33,8 @@ public class Updater {
      *
      * @param schedule Whether to schedule the next update or not.
      */
-    public static void update (boolean schedule) {
+    @Override
+    public void update (boolean schedule) {
         PLUGIN.getLogger().log(Level.INFO, "Attempting to update paper...");
         if (!IS_REMOTE_CLONED) {
             PLUGIN.getLogger().log(Level.INFO, "Cloning remote repository...");
@@ -66,6 +74,25 @@ public class Updater {
         }
         PLUGIN.getLogger().log(Level.INFO, "Copied paper.jar to server folder.");
         PLUGIN.getLogger().log(Level.INFO, "Paper updated! This will be applied on the next server restart.");
-        if (schedule) Bukkit.getScheduler().runTaskLater(PLUGIN, () -> new Thread(Updater::update).start(), 20 * 60 * 60 * 12); // Run every 12 hours
+        if (schedule) Bukkit.getScheduler().runTaskLater(PLUGIN, () -> new Thread(this::update).start(), interval); // Run every 12 hours
+    }
+
+    /**
+     * Schedules an update to occur in the future. This interval is 12 hours by default.
+     */
+    @Override
+    public void schedule () {
+        schedule(60 * 60 * 12);
+    }
+
+    /**
+     * Schedules an update to occur in the future after the given interval. This interval is passed in seconds.
+     *
+     * @param interval The interval in seconds.
+     */
+    @Override
+    public void schedule (long interval) {
+        this.interval = interval * 20;
+        Bukkit.getScheduler().runTaskLaterAsynchronously(PLUGIN, () -> new Thread(this::update).start(), this.interval);
     }
 }

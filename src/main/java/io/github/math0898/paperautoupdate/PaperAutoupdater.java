@@ -1,5 +1,6 @@
 package io.github.math0898.paperautoupdate;
 
+import io.github.math0898.paperautoupdate.updaters.PaperUpdater;
 import org.apache.commons.lang.SystemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -36,13 +37,9 @@ public final class PaperAutoupdater extends JavaPlugin {
     public static JavaPlugin PLUGIN;
 
     /**
-     * A main way to run the plugin just because why not.
-     *
-     * @param args The arguments given by the commandline.
+     * The UpdateManager instance to be used with this plugin.
      */
-    public static void main (String[] args) {
-        System.out.println("What");
-    }
+    public static UpdateManager updateManager = new UpdateManager();
 
     /**
      * Called when the plugin is enabled.
@@ -50,9 +47,10 @@ public final class PaperAutoupdater extends JavaPlugin {
     @Override
     public void onEnable () {
         PLUGIN = this;
-        File container = new File("./plugins/PaperUpdater/Paper/");
-        Objects.requireNonNull(Bukkit.getPluginCommand("update")).setExecutor(UpdateCommand.executor);
+        File container = new File("./plugins/PaperUpdater/");
         if (!container.exists()) container.mkdirs();
-        Bukkit.getScheduler().runTaskLater(PLUGIN, () -> new Thread(Updater::update).start(), 20 * 60 * 60 * 12); // Run every 12 hours
+        Objects.requireNonNull(Bukkit.getPluginCommand("update")).setExecutor(UpdateCommand.executor);
+        updateManager.addUpdater("paper", new PaperUpdater());
+        updateManager.scheduleUpdater("paper");
     }
 }
