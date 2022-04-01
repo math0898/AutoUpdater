@@ -1,0 +1,10 @@
+# The auto-updater defines updating rules for this plugin.
+interval: 43200 # 12 hours
+# Sets a preference between using a mirror to download a pre-built copy or building one from source.
+prefer: 'build'
+mirror:
+  url: ''
+build:
+  repository-url: 'https://github.com/math0898/PaperUpdater.git'
+  repository-name: 'PaperUpdater'
+  build-system: 'gradle'

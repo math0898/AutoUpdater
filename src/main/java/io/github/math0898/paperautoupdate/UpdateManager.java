@@ -2,7 +2,9 @@ package io.github.math0898.paperautoupdate;
 
 import io.github.math0898.paperautoupdate.updaters.Updater;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,6 +18,15 @@ public class UpdateManager {
      * A map of updaters.
      */
     private final Map<String, Updater> updaters = new HashMap<>();
+
+    /**
+     * Returns a list of updaters that can be accessed.
+     *
+     * @return A list of the names of updaters.
+     */
+    public List<String> getUpdaters () {
+        return new ArrayList<>(updaters.keySet());
+    }
 
     /**
      * Adds an updater to the update manager so that it can be run by other parts of the plugin.

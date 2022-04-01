@@ -2,6 +2,9 @@ package io.github.math0898.paperautoupdate;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.TabCompleter;
+
+import java.util.List;
 
 import static io.github.math0898.paperautoupdate.PaperAutoupdater.updateManager;
 
@@ -11,6 +14,18 @@ import static io.github.math0898.paperautoupdate.PaperAutoupdater.updateManager;
  * @author Sugaku
  */
 public class UpdateCommand {
+
+    /**
+     * The tab completer for the update command.
+     */
+    public static TabCompleter tabCompleter = (sender, command, alias, args) -> {
+        if (command.getName().equalsIgnoreCase("update")) {
+            List<String> toReturn = updateManager.getUpdaters();
+            if (args.length != 1) toReturn.removeIf(s -> !s.startsWith(args[0]));
+            return toReturn;
+        }
+        return null;
+    };
 
     /**
      * The command executor for the update command.
