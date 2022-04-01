@@ -15,7 +15,7 @@ public class UpdateCommand {
     public static CommandExecutor executor = (commandSender, command, string, strings) -> {
         commandSender.sendMessage("Started updating...");
         commandSender.sendMessage("Check console for updates.");
-        new Thread(Updater::update).start();
+        new Thread(() -> Updater.update(false)).start();
         return true;
     };
 }

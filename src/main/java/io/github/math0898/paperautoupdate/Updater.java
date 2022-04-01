@@ -18,6 +18,15 @@ public class Updater {
      * Attempts to update paper.
      */
     public static void update () {
+        update(true);
+    }
+
+    /**
+     * Attempts to update paper.
+     *
+     * @param schedule Whether to schedule the next update or not.
+     */
+    public static void update (boolean schedule) {
         PLUGIN.getLogger().log(Level.INFO, "Attempting to update paper...");
         if (!IS_REMOTE_CLONED) {
             PLUGIN.getLogger().log(Level.INFO, "Cloning remote repository...");
@@ -28,6 +37,8 @@ public class Updater {
         PLUGIN.getLogger().log(Level.INFO, "Fetching updates...");
         GitFacade.pull("./plugins/PaperUpdater/Paper/");
         PLUGIN.getLogger().log(Level.INFO, "Fetched updates.");
+        File[] files = new File("./plugins/PaperUpdater/Paper/build/libs").listFiles();
+        if (files != null) for (File file : files) if (file.getName().endsWith(".jar")) file.delete();
         PLUGIN.getLogger().log(Level.INFO, "Building paper.jar...");
         File gradlew = new File("./plugins/PaperUpdater/Paper/gradlew");
         try {
@@ -47,7 +58,14 @@ public class Updater {
         } finally {
             PLUGIN.getLogger().log(Level.INFO, "Built paper.jar.");
         }
-        // todo move jar to main folder named paper.jar
-        Bukkit.getScheduler().runTaskLater(PLUGIN, () -> new Thread(Updater::update).start(), 20 * 60 * 60 * 12); // Run every 12 hours
+        files = new File("./plugins/PaperUpdater/Paper/build/libs").listFiles();
+        if (files != null) for (File file : files) if (file.getName().endsWith(".jar")) {
+            PLUGIN.getLogger().log(Level.INFO, "Copying paper.jar to server folder...");
+            file.renameTo(new File("./paper.jar"));
+            break;
+        }
+        PLUGIN.getLogger().log(Level.INFO, "Copied paper.jar to server folder.");
+        PLUGIN.getLogger().log(Level.INFO, "Paper updated! This will be applied on the next server restart.");
+        if (schedule) Bukkit.getScheduler().runTaskLater(PLUGIN, () -> new Thread(Updater::update).start(), 20 * 60 * 60 * 12); // Run every 12 hours
     }
 }
