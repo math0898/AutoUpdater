@@ -45,7 +45,7 @@ public class GradleBuilder implements Updater {
     public GradleBuilder (String url, String name) {
         this.url = url;
         this.name = name;
-        isCloned = false;
+        isCloned = new File("./plugins/PaperUpdater/" + name + "/gradlew").exists();
     }
 
     /**
