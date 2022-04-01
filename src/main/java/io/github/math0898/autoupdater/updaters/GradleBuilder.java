@@ -1,12 +1,12 @@
-package io.github.math0898.paperautoupdate.updaters;
+package io.github.math0898.autoupdater.updaters;
 
-import io.github.math0898.paperautoupdate.GitFacade;
+import io.github.math0898.autoupdater.GitFacade;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
 import java.io.File;
 
-import static io.github.math0898.paperautoupdate.PaperAutoupdater.*;
+import static io.github.math0898.autoupdater.AutoUpdater.*;
 
 /**
  * A GradleBuilder is an updater which, after cloning and updating a git repository, builds the project using

@@ -1,12 +1,12 @@
-package io.github.math0898.paperautoupdate.updaters;
+package io.github.math0898.autoupdater.updaters;
 
-import io.github.math0898.paperautoupdate.GitFacade;
+import io.github.math0898.autoupdater.GitFacade;
 import org.bukkit.Bukkit;
 
 import java.io.File;
 import java.util.logging.Level;
 
-import static io.github.math0898.paperautoupdate.PaperAutoupdater.*;
+import static io.github.math0898.autoupdater.AutoUpdater.*;
 
 /**
  * The updater does the actual work of updating paper.

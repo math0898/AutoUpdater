@@ -1,10 +1,10 @@
-package io.github.math0898.paperautoupdate;
+package io.github.math0898.autoupdater;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 
 import java.util.logging.Level;
-import static io.github.math0898.paperautoupdate.PaperAutoupdater.PLUGIN;
+import static io.github.math0898.autoupdater.AutoUpdater.PLUGIN;
 
 /**
  * The GitFacade functions as a layer between JGit and the PaperAutoUpdater.

@@ -1,7 +1,7 @@
-package io.github.math0898.paperautoupdate;
+package io.github.math0898.autoupdater;
 
-import io.github.math0898.paperautoupdate.updaters.GradleBuilder;
-import io.github.math0898.paperautoupdate.updaters.PaperUpdater;
+import io.github.math0898.autoupdater.updaters.GradleBuilder;
+import io.github.math0898.autoupdater.updaters.PaperUpdater;
 import org.apache.commons.lang.SystemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -15,7 +15,7 @@ import java.util.Objects;
  *
  * @author Sugaku
  */
-public final class PaperAutoupdater extends JavaPlugin {
+public final class AutoUpdater extends JavaPlugin {
 
     /**
      * Whether this Java program is running on a Windows system or not. If not on Windows then on Linux and hopefully
@@ -73,7 +73,7 @@ public final class PaperAutoupdater extends JavaPlugin {
         Objects.requireNonNull(Bukkit.getPluginCommand("update")).setExecutor(UpdateCommand.executor);
         Objects.requireNonNull(Bukkit.getPluginCommand("update")).setTabCompleter(UpdateCommand.tabCompleter);
         updateManager.addUpdater("paper", new PaperUpdater());
-        updateManager.addUpdater("PaperUpdater",new GradleBuilder("https://github.com/math0898/PaperUpdater.git", "PaperUpdater"));
+        updateManager.addUpdater("PaperUpdater",new GradleBuilder("https://github.com/math0898/AutoUpdater.git", "PaperUpdater"));
         updateManager.scheduleUpdater("paper");
         updateManager.scheduleUpdater("PaperUpdater");
     }

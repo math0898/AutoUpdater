@@ -1,6 +1,6 @@
-package io.github.math0898.paperautoupdate;
+package io.github.math0898.autoupdater;
 
-import io.github.math0898.paperautoupdate.updaters.Updater;
+import io.github.math0898.autoupdater.updaters.Updater;
 
 import java.util.ArrayList;
 import java.util.HashMap;

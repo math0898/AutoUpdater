@@ -1,4 +1,4 @@
-package io.github.math0898.paperautoupdate;
+package io.github.math0898.autoupdater;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
@@ -6,7 +6,7 @@ import org.bukkit.command.TabCompleter;
 
 import java.util.List;
 
-import static io.github.math0898.paperautoupdate.PaperAutoupdater.updateManager;
+import static io.github.math0898.autoupdater.AutoUpdater.updateManager;
 
 /**
  * The update command forcibly runs the updater method.

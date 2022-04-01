@@ -1,4 +1,4 @@
-package io.github.math0898.paperautoupdate.updaters;
+package io.github.math0898.autoupdater.updaters;
 
 /**
  * An updater is an interface used to update a specific plugin or server jar.
