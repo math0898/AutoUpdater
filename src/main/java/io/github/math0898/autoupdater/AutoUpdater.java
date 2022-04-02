@@ -47,7 +47,7 @@ public final class AutoUpdater extends JavaPlugin {
     /**
      * Prefix for messages sent to the server.
      */
-    public static final String prefix = ConsoleColors.BLACK.getValue() + "[" + ConsoleColors.CYAN.getValue() + "AutoUpdater" + ConsoleColors.BLACK.getValue() + "] ";
+    public static final String prefix = ChatColor.DARK_GRAY + "[" + ChatColor.DARK_AQUA + "AutoUpdater" + ChatColor.DARK_GRAY + "] ";
 
     /**
      * Sends the given string to the console at the information level.
