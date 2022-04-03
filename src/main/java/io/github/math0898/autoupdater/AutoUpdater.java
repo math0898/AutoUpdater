@@ -105,7 +105,7 @@ public final class AutoUpdater extends JavaPlugin {
      * Saves all the resources in this plugin to the plugin folder.
      */
     public void saveResources () {
-        for (String s : Arrays.asList("Paper.yml", "config.yml", "auto-updater.yml"))
+        for (String s : Arrays.asList("Paper.yml", "config.yml", "auto-updater.yml", "packages.yml"))
             if (!new File("./plugins/AutoUpdater/" + s).exists())
                 this.saveResource(s, false);
     }
