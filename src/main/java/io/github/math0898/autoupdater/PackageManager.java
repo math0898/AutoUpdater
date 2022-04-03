@@ -58,6 +58,6 @@ public class PackageManager {
      * @param name The name of the package to install.
      */
     public void install (String name) {
-        packages.get(name).install();
+        new Thread(packages.get(name)::install).start();
     }
 }

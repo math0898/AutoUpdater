@@ -18,7 +18,7 @@ public class EssentialsX implements Package {
     /**
      * The repository for EssentialsX.
      */
-    public static final String url = "https://github.com/EssentialsX/Essentials";
+    public static final String url = "https://github.com/EssentialsX/Essentials.git";
 
     /**
      * Whether the repository has been cloned or not.
