@@ -1,6 +1,7 @@
 package io.github.math0898.autoupdater.updaters;
 
 import io.github.math0898.autoupdater.facades.GitFacade;
+import io.github.math0898.autoupdater.facades.GradleFacade;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
@@ -79,17 +80,7 @@ public class GradleBuilder implements Updater {
             file.delete();
         console("Building project...", ChatColor.DARK_GRAY);
         File gradlew = new File("./plugins/AutoUpdater/" + name + "/gradlew");
-        try {
-            ProcessBuilder processBuilder = new ProcessBuilder(gradlew.getAbsolutePath(), "build");
-            processBuilder.directory(gradlew.getParentFile());
-            Process process = processBuilder.start();
-            process.waitFor();
-        } catch (Exception e) {
-            console("Failed to build project.", ChatColor.DARK_GRAY);
-            return;
-        } finally {
-            console("Built project.", ChatColor.DARK_GRAY);
-        }
+        GradleFacade.runGradle(gradlew, "build");
         files = new File("plugins/AutoUpdater/" + name + "/build/libs").listFiles();
         if (files != null) for (File file : files) if (file.getName().endsWith(".jar")) {
             console("Copying jar to plugins folder...", ChatColor.DARK_GRAY);

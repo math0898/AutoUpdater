@@ -1,6 +1,8 @@
 package io.github.math0898.autoupdater;
 
+import io.github.math0898.autoupdater.packages.EssentialsX;
 import io.github.math0898.autoupdater.packages.Package;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,13 +19,28 @@ public class PackageManager {
     /**
      * The list of packages being managed by the package manager.
      */
-    private Map<String, Package> packages = new HashMap<>();
+    private final Map<String, Package> packages = new HashMap<>();
 
     /**
      * Loads all the packages defined in packages.yml.
      */
     public void load () {
-        // todo implement.
+        YamlConfiguration file = new YamlConfiguration();
+        try {
+            file.load("./plugins/AutoUpdater/packages.yml");
+            for (String s : file.getKeys(false)) {
+                if (file.getString(s + ".special") != null) {
+                    String special = file.getString(s + ".special", "");
+                    switch (special) {
+                        case "EssentialsX" -> packages.put("EssentialsX", new EssentialsX());
+                    }
+                    continue;
+                }
+                // todo implement for most packages.
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**

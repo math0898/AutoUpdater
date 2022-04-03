@@ -1,5 +1,6 @@
 package io.github.math0898.autoupdater;
 
+import io.github.math0898.autoupdater.commands.PackageCommand;
 import io.github.math0898.autoupdater.commands.UpdateCommand;
 import io.github.math0898.autoupdater.updaters.GradleBuilder;
 import io.github.math0898.autoupdater.updaters.PaperUpdater;
@@ -89,6 +90,8 @@ public final class AutoUpdater extends JavaPlugin {
         configManager.load();
         Objects.requireNonNull(Bukkit.getPluginCommand("update")).setExecutor(UpdateCommand.executor);
         Objects.requireNonNull(Bukkit.getPluginCommand("update")).setTabCompleter(UpdateCommand.tabCompleter);
+        Objects.requireNonNull(Bukkit.getPluginCommand("package")).setExecutor(PackageCommand.executor);
+        Objects.requireNonNull(Bukkit.getPluginCommand("package")).setTabCompleter(PackageCommand.tabCompleter);
         updateManager.addUpdater("Paper", new PaperUpdater());
         updateManager.addUpdater("AutoUpdater",new GradleBuilder("https://github.com/math0898/AutoUpdater.git", "AutoUpdater"));
         updateManager.scheduleUpdater("Paper");
