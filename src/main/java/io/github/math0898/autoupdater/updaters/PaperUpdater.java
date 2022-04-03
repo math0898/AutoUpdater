@@ -1,6 +1,6 @@
 package io.github.math0898.autoupdater.updaters;
 
-import io.github.math0898.autoupdater.GitFacade;
+import io.github.math0898.autoupdater.facades.GitFacade;
 import org.bukkit.Bukkit;
 
 import java.io.File;

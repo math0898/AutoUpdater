@@ -1,4 +1,4 @@
-package io.github.math0898.autoupdater;
+package io.github.math0898.autoupdater.facades;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;

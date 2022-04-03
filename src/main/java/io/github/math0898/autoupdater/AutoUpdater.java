@@ -1,5 +1,6 @@
 package io.github.math0898.autoupdater;
 
+import io.github.math0898.autoupdater.commands.UpdateCommand;
 import io.github.math0898.autoupdater.updaters.GradleBuilder;
 import io.github.math0898.autoupdater.updaters.PaperUpdater;
 import org.apache.commons.lang.SystemUtils;
@@ -45,6 +46,11 @@ public final class AutoUpdater extends JavaPlugin {
     public static UpdateManager updateManager = new UpdateManager();
 
     /**
+     * The PacketManager instance to be used with this plugin.
+     */
+    public static PackageManager packageManager = new PackageManager();
+
+    /**
      * The ConfigManager instance to be used with this plugin.
      */
     public static ConfigManager configManager = new ConfigManager();
@@ -87,6 +93,7 @@ public final class AutoUpdater extends JavaPlugin {
         updateManager.addUpdater("AutoUpdater",new GradleBuilder("https://github.com/math0898/AutoUpdater.git", "AutoUpdater"));
         updateManager.scheduleUpdater("Paper");
         updateManager.scheduleUpdater("AutoUpdater");
+        packageManager.load();
         if (configManager.getAutoRestart())
             Bukkit.getScheduler().runTaskLater(this, AutoUpdater::restart, configManager.getRestartInterval());
     }

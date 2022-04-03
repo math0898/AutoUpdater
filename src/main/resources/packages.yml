@@ -1,5 +1,5 @@
 # This file is used for the 'install' command and related features. You may add additional packages in which case a
 # please submit a pull request to https://github.com/math0898/AutoUpdater
 essentialsx:
-  repository: 'https://github.com/EssentialsX/Essentials'
-  build-system: 'gradle'
+  special: 'EssentialsX'
+

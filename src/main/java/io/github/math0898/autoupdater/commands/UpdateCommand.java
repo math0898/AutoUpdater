@@ -1,4 +1,4 @@
-package io.github.math0898.autoupdater;
+package io.github.math0898.autoupdater.commands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
