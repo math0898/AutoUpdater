@@ -44,7 +44,7 @@ public class EssentialsX implements Package {
         if (files != null) for (File file : files) if (file.getName().endsWith(".jar")) //noinspection ResultOfMethodCallIgnored
             file.delete();
         console("Building project...", ChatColor.DARK_GRAY);
-        File gradlew = new File("./plugins/AutoUpdater/EssentialsX/gradlew");
+        File gradlew = new File("./plugins/AutoUpdater/Essentials/gradlew");
         GradleFacade.runGradle(gradlew, "build");
         files = new File("plugins/AutoUpdater/Essentials/Essentials/build/libs").listFiles();
         if (files != null) for (File file : files) if (file.getName().endsWith(".jar")) {
