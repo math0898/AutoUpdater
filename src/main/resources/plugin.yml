@@ -9,7 +9,6 @@ commands:
     description: Updates the server jar.
     usage: /update
     permission: au.update
-  package:
+  au:
     description: A package manager for popular Minecraft plugins.
-    usage: /au
     permission: au.package

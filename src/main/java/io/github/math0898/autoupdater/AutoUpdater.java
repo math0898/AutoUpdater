@@ -90,8 +90,8 @@ public final class AutoUpdater extends JavaPlugin {
         configManager.load();
         Objects.requireNonNull(Bukkit.getPluginCommand("update")).setExecutor(UpdateCommand.executor);
         Objects.requireNonNull(Bukkit.getPluginCommand("update")).setTabCompleter(UpdateCommand.tabCompleter);
-        Objects.requireNonNull(Bukkit.getPluginCommand("package")).setExecutor(PackageCommand.executor);
-        Objects.requireNonNull(Bukkit.getPluginCommand("package")).setTabCompleter(PackageCommand.tabCompleter);
+        Objects.requireNonNull(Bukkit.getPluginCommand("au")).setExecutor(PackageCommand.executor);
+        Objects.requireNonNull(Bukkit.getPluginCommand("au")).setTabCompleter(PackageCommand.tabCompleter);
         updateManager.addUpdater("Paper", new PaperUpdater());
         updateManager.addUpdater("AutoUpdater",new GradleBuilder("https://github.com/math0898/AutoUpdater.git", "AutoUpdater"));
         updateManager.scheduleUpdater("Paper");

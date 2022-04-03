@@ -22,7 +22,7 @@ public class PackageCommand {
      * The tab completer for the update command.
      */
     public static TabCompleter tabCompleter = (sender, command, alias, args) -> {
-        if (command.getName().equalsIgnoreCase("package")) {
+        if (command.getName().equalsIgnoreCase("au")) {
             List<String> toReturn = new ArrayList<>();
             if (args.length == 1) toReturn.addAll(Arrays.asList("update", "list", "install"));
             else if (args.length == 2) {
@@ -41,7 +41,7 @@ public class PackageCommand {
      * The command executor for the update command.
      */
     public static CommandExecutor executor = (commandSender, command, alias, args) -> { // todo refine.
-        if (args.length <= 2) {
+        if (args.length < 2) {
             commandSender.sendMessage(ChatColor.RED + "That doesn't seem to be right.");
             return true;
         }

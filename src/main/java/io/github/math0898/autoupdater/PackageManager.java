@@ -32,7 +32,7 @@ public class PackageManager {
                 if (file.getString(s + ".special") != null) {
                     String special = file.getString(s + ".special", "");
                     switch (special) {
-                        case "EssentialsX" -> packages.put("EssentialsX", new EssentialsX());
+                        case "EssentialsX" -> packages.put(s, new EssentialsX());
                     }
                     continue;
                 }
