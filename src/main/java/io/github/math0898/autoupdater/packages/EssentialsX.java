@@ -26,6 +26,59 @@ public class EssentialsX implements Package {
     private static boolean isCloned = new File("./plugins/AutoUpdater/Essentials/gradlew").exists();
 
     /**
+     * The name of the jar when it's in the plugin folder.
+     */
+    private final String pluginName;
+
+    /**
+     * The containing folder of this section of the plugin.
+     */
+    private final String folder;
+
+    /**
+     * An enum detailing the different sections of EssentialsX.
+     *
+     * @author Sugaku
+     */
+    public enum Sections { // todo Discord, GeoIP, Protect, Spawn, XMPP
+
+        /**
+         * The main section of EssentialsX.
+         */
+        MAIN,
+
+        /**
+         * The anti-build section of EssentialsX.
+         */
+        ANTI_BUILD,
+
+        /**
+         * The chat section of EssentialsX.
+         */
+        CHAT
+    }
+
+    /**
+     * The specific section of EssentialsX attached to this Package.
+     */
+    public EssentialsX (Sections section) {
+        switch (section) {
+            case CHAT -> {
+                pluginName = "EssentialsXChat.jar";
+                folder = "EssentialsChat";
+            }
+            case ANTI_BUILD -> {
+                pluginName = "EssentialsXAntiBuild.jar";
+                folder = "EssentialsAntiBuild";
+            }
+            default -> { // MAIN as well
+                pluginName = "EssentialsX.jar";
+                folder = "Essentials";
+            }
+        }
+    }
+
+    /**
      * Installs the package in the server.
      */
     @Override
@@ -40,20 +93,20 @@ public class EssentialsX implements Package {
         console("Fetching source...", ChatColor.DARK_GRAY);
         GitFacade.pull("./plugins/AutoUpdater/Essentials");
         console("Fetched source.", ChatColor.DARK_GRAY);
-        File[] files = new File("./plugins/AutoUpdater/EssentialsXbuild/libs").listFiles();
+        File[] files = new File("./plugins/AutoUpdater/Essentials/" + folder + "/build/libs").listFiles();
         if (files != null) for (File file : files) if (file.getName().endsWith(".jar")) //noinspection ResultOfMethodCallIgnored
             file.delete();
         console("Building project...", ChatColor.DARK_GRAY);
         File gradlew = new File("./plugins/AutoUpdater/Essentials/gradlew");
         GradleFacade.runGradle(gradlew, "build");
-        files = new File("plugins/AutoUpdater/Essentials/Essentials/build/libs").listFiles();
+        files = new File("plugins/AutoUpdater/Essentials/" + folder + "/build/libs").listFiles();
         if (files != null) for (File file : files) if (file.getName().endsWith(".jar")) {
             if (file.getName().contains("javadoc") || file.getName().contains("sources") || file.getName().contains("unshaded")) continue;
             console("Copying jar to plugins folder...", ChatColor.DARK_GRAY);
-            if (file.renameTo(new File("./plugins/EssentialsX.jar"))) console("Copied jar to plugins folder.", ChatColor.DARK_GRAY);
+            if (file.renameTo(new File("./plugins/" + pluginName))) console("Copied jar to plugins folder.", ChatColor.DARK_GRAY);
             else console("Failed to copy jar to plugins folder.", ChatColor.RED);
             break;
         }
-        console("Successfully installed EssentialsX. Will be available after restart.", ChatColor.GREEN);
+        console("Successfully installed " + pluginName.replace(".jar", "") + ". Will be available after restart.", ChatColor.GREEN);
     }
 }

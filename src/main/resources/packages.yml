@@ -2,3 +2,7 @@
 # please submit a pull request to https://github.com/math0898/AutoUpdater
 essentialsx:
   special: 'EssentialsX'
+essentialsx-chat:
+  special: 'EssentialsX Chat'
+essentialsx-antibuild:
+  special: 'EssentialsX AntiBuild'
