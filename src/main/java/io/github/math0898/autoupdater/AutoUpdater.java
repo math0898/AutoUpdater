@@ -45,6 +45,11 @@ public final class AutoUpdater extends JavaPlugin {
     public static UpdateManager updateManager = new UpdateManager();
 
     /**
+     * The ConfigManager instance to be used with this plugin.
+     */
+    public static ConfigManager configManager = new ConfigManager();
+
+    /**
      * Prefix for messages sent to the server.
      */
     public static final String prefix = ChatColor.DARK_GRAY + "[" + ChatColor.DARK_AQUA + "AutoUpdater" + ChatColor.DARK_GRAY + "] ";
@@ -75,12 +80,15 @@ public final class AutoUpdater extends JavaPlugin {
     public void onEnable () {
         plugin = this;
         saveResources();
+        configManager.load();
         Objects.requireNonNull(Bukkit.getPluginCommand("update")).setExecutor(UpdateCommand.executor);
         Objects.requireNonNull(Bukkit.getPluginCommand("update")).setTabCompleter(UpdateCommand.tabCompleter);
         updateManager.addUpdater("Paper", new PaperUpdater());
         updateManager.addUpdater("AutoUpdater",new GradleBuilder("https://github.com/math0898/AutoUpdater.git", "AutoUpdater"));
         updateManager.scheduleUpdater("Paper");
         updateManager.scheduleUpdater("AutoUpdater");
+        if (configManager.getAutoRestart())
+            Bukkit.getScheduler().runTaskLater(this, AutoUpdater::restart, configManager.getRestartInterval());
     }
 
     /**
@@ -90,5 +98,12 @@ public final class AutoUpdater extends JavaPlugin {
         for (String s : Arrays.asList("Paper.yml", "config.yml", "auto-updater.yml"))
             if (!new File("./plugins/AutoUpdater/" + s).exists())
                 this.saveResource(s, false);
+    }
+
+    /**
+     * Restarts the server so that updates can be applied.
+     */
+    public static void restart () {
+        Bukkit.shutdown();
     }
 }

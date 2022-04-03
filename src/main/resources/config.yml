@@ -1,2 +1,5 @@
 # empty config
-config-version: 0.1
+config-version: 0.2
+restart:
+  enabled: true
+  interval: 86400 # An interval in seconds, after which to restart the server on start.

@@ -29,6 +29,7 @@ public class UpdateManager {
             if (!f.getName().contains(".yml")) continue;
             else if (f.getName().equals("config.yml")) continue;
         }
+        // todo finish implementing.
     }
 
     /**
