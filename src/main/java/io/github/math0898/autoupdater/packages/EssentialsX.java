@@ -48,6 +48,7 @@ public class EssentialsX implements Package {
         GradleFacade.runGradle(gradlew, "build");
         files = new File("plugins/AutoUpdater/Essentials/Essentials/build/libs").listFiles();
         if (files != null) for (File file : files) if (file.getName().endsWith(".jar")) {
+            if (file.getName().contains("javadoc") || file.getName().contains("sources") || file.getName().contains("unshaded")) continue;
             console("Copying jar to plugins folder...", ChatColor.DARK_GRAY);
             if (file.renameTo(new File("./plugins/EssentialsX.jar"))) console("Copied jar to plugins folder.", ChatColor.DARK_GRAY);
             else console("Failed to copy jar to plugins folder.", ChatColor.RED);
