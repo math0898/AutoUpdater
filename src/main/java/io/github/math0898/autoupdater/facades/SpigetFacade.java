@@ -22,6 +22,11 @@ import java.util.Set;
 public class SpigetFacade {
 
     /**
+     * A couple of constant parameters to add to the resource query to better focus development.
+     */
+    private static final String INCLUDE_FIELDS = ",premium,external";
+
+    /**
      * The master list of resources listed on Spigot.
      */
     private static final Map<String, Long> resourceList = new HashMap<>();
@@ -33,7 +38,7 @@ public class SpigetFacade {
         System.out.println("Pulling resources from spiget.");
         try {
             HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder().uri(URI.create("https://api.spiget.org/v2/resources?fields=name&size=100000")).build();
+            HttpRequest request = HttpRequest.newBuilder().uri(URI.create("https://api.spiget.org/v2/resources?fields=name" + INCLUDE_FIELDS + "&size=100000")).build();
             client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenApply(HttpResponse::body).thenApply(SpigetFacade::parseResources);
         } catch (Exception ignored) {
             ignored.printStackTrace();
@@ -60,6 +65,8 @@ public class SpigetFacade {
             JSONArray array = (JSONArray) new JSONParser().parse(responseBody);
             array.forEach((p) -> {
                 if (p instanceof JSONObject obj) {
+                    if (obj.get("premium") != null) if ((Boolean) obj.get("premium")) return;
+                    if (obj.get("external") != null) if ((Boolean) obj.get("external")) return;
                     resourceList.put((String) obj.get("name"), (Long) obj.get("id"));
                 } else System.out.println("Not an instance of JSONObject");
             });
