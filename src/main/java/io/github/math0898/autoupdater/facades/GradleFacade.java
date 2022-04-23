@@ -1,6 +1,6 @@
 package io.github.math0898.autoupdater.facades;
 
-import org.bukkit.ChatColor;
+import io.github.math0898.autoupdater.ChatColor;
 
 import java.io.File;
 

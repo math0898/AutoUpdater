@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'io.github.math0898'
-version = '2.1.1-ALPHA-3'
+version = '2.1.1-ALPHA-4'
 
 repositories {
     mavenCentral()
@@ -18,8 +18,10 @@ repositories {
 }
 
 dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
     compileOnly 'io.papermc.paper:paper-api:1.18.1-R0.1-SNAPSHOT'
     implementation 'org.eclipse.jgit:org.eclipse.jgit:6.0.0.202111291000-r'
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 }
 
 def targetJavaVersion = 17
@@ -51,4 +53,8 @@ jar {
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     } exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA' // Prevents a dependency signature on the jar.
+}
+
+test {
+    useJUnitPlatform()
 }

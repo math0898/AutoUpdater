@@ -7,7 +7,6 @@ import io.github.math0898.autoupdater.updaters.GradleBuilder;
 import io.github.math0898.autoupdater.updaters.PaperUpdater;
 import org.apache.commons.lang.SystemUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -25,7 +24,7 @@ public final class AutoUpdater extends JavaPlugin {
      * Whether this Java program is running on a Windows system or not. If not on Windows then on Linux and hopefully
      * have access to Bash.
      */
-    public static final boolean IS_WINDOWS = SystemUtils.IS_OS_WINDOWS;
+//    public static final boolean IS_WINDOWS = SystemUtils.IS_OS_WINDOWS;
 
     /**
      * Whether the remote PaperMC repository has been cloned or not yet.
@@ -78,13 +77,17 @@ public final class AutoUpdater extends JavaPlugin {
      * @param color   The color of the message.
      */
     public static void console (String message, ChatColor color) {
-        Bukkit.getConsoleSender().sendMessage(prefix + color + message);
+        try {
+            Bukkit.getConsoleSender().sendMessage(prefix + color + message);
+        } catch (Error e) { // Not running in a bukkit instance.
+            System.out.println(prefix + color + message + ChatColor.GRAY);
+        }
     }
 
     /**
      * Called when the plugin is enabled.
      */
-    @Override
+//    @Override
     public void onEnable () {
         plugin = this;
         saveResources();

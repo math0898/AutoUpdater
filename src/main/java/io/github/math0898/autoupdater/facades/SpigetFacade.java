@@ -1,16 +1,19 @@
 package io.github.math0898.autoupdater.facades;
 
+import io.github.math0898.autoupdater.ChatColor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import org.json.simple.JSONValue;
 
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+import static io.github.math0898.autoupdater.AutoUpdater.console;
 
 /**
  * A facade for interacting with the spiget website.
@@ -22,9 +25,24 @@ import java.util.Set;
 public class SpigetFacade {
 
     /**
-     * A couple of constant parameters to add to the resource query to better focus development.
+     * A user agent to identify this process with.
      */
-    private static final String INCLUDE_FIELDS = ",premium,external";
+    private static final String USER_AGENT = "math0898/AutoUpdater";
+
+    /**
+     * The url for requests.
+     */
+    private static final String REQUEST_URL = "https://api.spiget.org/v2/resources";
+
+    /**
+     * The total number of resources found.
+     */
+    private static long resourcesFound = 0;
+
+    /**
+     * The number of resources that are functional with the package manager.
+     */
+    private static long resourcesSupported = 0;
 
     /**
      * The master list of resources listed on Spigot.
@@ -32,16 +50,38 @@ public class SpigetFacade {
     private static final Map<String, Long> resourceList = new HashMap<>();
 
     /**
-     * Pulls the full resource list from spiget.
+     * Pulls the full resource list from spiget. This should be run async so as not to crash the server.
      */
     public static void queryResources () {
-        System.out.println("Pulling resources from spiget.");
         try {
-            HttpClient client = HttpClient.newHttpClient();
-            HttpRequest request = HttpRequest.newBuilder().uri(URI.create("https://api.spiget.org/v2/resources?fields=name" + INCLUDE_FIELDS + "&size=100000")).build();
-            client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenApply(HttpResponse::body).thenApply(SpigetFacade::parseResources);
-        } catch (Exception ignored) {
-            ignored.printStackTrace();
+            console("Polling resources from Spiget.", ChatColor.GRAY);
+
+            URL url = new URL(REQUEST_URL + "?size=100000&fields=name,id,premium,external"); // todo perhaps there's a better way to do parameters.
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.addRequestProperty("User-Agent", USER_AGENT);
+//            connection.addRequestProperty("size", "100000");
+//            connection.addRequestProperty("fields", "name,id,premium,external");
+
+            InputStream inputStream = connection.getInputStream();
+            InputStreamReader reader = new InputStreamReader(inputStream);
+
+            JSONArray response = (JSONArray) JSONValue.parseWithException(reader);
+
+            //noinspection unchecked
+            response.forEach((json) -> {
+                resourcesFound++;
+                if (json instanceof JSONObject obj) {
+                    if (obj.get("premium") != null) if ((Boolean) obj.get("premium")) return;
+                    if (obj.get("external") != null) if ((Boolean) obj.get("external")) return;
+                    resourcesSupported++;
+                    resourceList.put((String) obj.get("name"), (Long) obj.get("id"));
+                }
+            });
+
+            console("Found " + resourcesFound + " resources and supporting " + resourcesSupported + ". " + ChatColor.DARK_GRAY
+                    + String.format("%.2f", (resourcesSupported * 1.0 / resourcesFound) * 100) + "%", ChatColor.GREEN);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -52,27 +92,5 @@ public class SpigetFacade {
      */
     public static Set<String> getResources () {
         return resourceList.keySet();
-    }
-
-    /**
-     * Parses the server response for the resource list into the map.
-     *
-     * @param responseBody The body of the response.
-     * @return The string body of the response.
-     */
-    public static String parseResources (String responseBody) {
-        try {
-            JSONArray array = (JSONArray) new JSONParser().parse(responseBody);
-            array.forEach((p) -> {
-                if (p instanceof JSONObject obj) {
-                    if (obj.get("premium") != null) if ((Boolean) obj.get("premium")) return;
-                    if (obj.get("external") != null) if ((Boolean) obj.get("external")) return;
-                    resourceList.put((String) obj.get("name"), (Long) obj.get("id"));
-                } else System.out.println("Not an instance of JSONObject");
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return responseBody;
     }
 }
