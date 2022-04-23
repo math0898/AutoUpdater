@@ -1,6 +1,6 @@
 name: AutoUpdater
 version: '${version}'
-main: io.github.math0898.autoupdater.AutoUpdater
+main: io.github.math0898.autoupdater.Plugin
 api-version: 1.18
 authors: [ Sugaku ]
 description: This plugin automatically clones, and pulls from the offical PaperMC Github. Then it builds the server jar before replacing the one currently running. After a restart this will result in an updated paper build.

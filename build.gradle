@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'io.github.math0898'
-version = '2.1.1-ALPHA-4'
+version = '2.1.1'
 
 repositories {
     mavenCentral()
@@ -50,9 +50,13 @@ processResources {
 }
 
 jar {
+    duplicatesStrategy 'exclude'
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     } exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA' // Prevents a dependency signature on the jar.
+    manifest {
+        attributes 'Main-Class':'io.github.math0898.autoupdater.AutoUpdater'
+    }
 }
 
 test {

@@ -9,15 +9,15 @@ import org.bukkit.Bukkit;
  */
 public enum ChatColor {
 
-    DARK_GRAY("&8", "\u001B[30m"), // todo currently is ANSI black
+    DARK_GRAY("&8", "\u001B[1;90m"),
 
-    GRAY("&7", "\u001B[0m"),
+    GRAY("&7", "\u001B[0;0m"),
 
-    RED("&c", "\u001B[31m"),
+    RED("&c", "\u001B[0;31m"),
 
-    GREEN("&a", "\u001B[32m"),
+    GREEN("&a", "\u001B[0;32m"),
 
-    DARK_AQUA("&b", "\u001B[36m");
+    DARK_AQUA("&b", "\u001B[0;36m");
 
     /**
      * The bukkit value of this color.

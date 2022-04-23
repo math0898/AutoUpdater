@@ -5,10 +5,11 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -32,7 +33,7 @@ public class SpigetFacade {
     /**
      * The url for requests.
      */
-    private static final String REQUEST_URL = "https://api.spiget.org/v2/resources";
+    private static final String REQUEST_URL = "https://api.spiget.org/v2/";
 
     /**
      * The total number of resources found.
@@ -56,32 +57,30 @@ public class SpigetFacade {
         try {
             console("Polling resources from Spiget.", ChatColor.GRAY);
 
-            URL url = new URL(REQUEST_URL + "?size=100000&fields=name,id,premium,external"); // todo perhaps there's a better way to do parameters.
+            URL url = new URL(REQUEST_URL + "resources?size=100000&fields=name,id,premium,external"); // todo perhaps there's a better way to do parameters.
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.addRequestProperty("User-Agent", USER_AGENT);
-//            connection.addRequestProperty("size", "100000");
-//            connection.addRequestProperty("fields", "name,id,premium,external");
 
             InputStream inputStream = connection.getInputStream();
             InputStreamReader reader = new InputStreamReader(inputStream);
 
             JSONArray response = (JSONArray) JSONValue.parseWithException(reader);
 
-            //noinspection unchecked
-            response.forEach((json) -> {
+            for (Object json : response) {
                 resourcesFound++;
                 if (json instanceof JSONObject obj) {
-                    if (obj.get("premium") != null) if ((Boolean) obj.get("premium")) return;
-                    if (obj.get("external") != null) if ((Boolean) obj.get("external")) return;
+                    if (obj.get("premium") != null) if ((Boolean) obj.get("premium")) continue;
+                    if (obj.get("external") != null) if ((Boolean) obj.get("external")) continue;
                     resourcesSupported++;
                     resourceList.put((String) obj.get("name"), (Long) obj.get("id"));
                 }
-            });
+            }
 
             console("Found " + resourcesFound + " resources and supporting " + resourcesSupported + ". " + ChatColor.DARK_GRAY
                     + String.format("%.2f", (resourcesSupported * 1.0 / resourcesFound) * 100) + "%", ChatColor.GREEN);
         } catch (Exception e) {
-            e.printStackTrace();
+            console(e.getMessage(), ChatColor.RED);
+            for (StackTraceElement se : e.getStackTrace()) console(se.toString(), ChatColor.RED);
         }
     }
 
@@ -92,5 +91,35 @@ public class SpigetFacade {
      */
     public static Set<String> getResources () {
         return resourceList.keySet();
+    }
+
+    /**
+     * Downloads the given resource and places it at the given path.
+     *
+     * @param name The plugin to download.
+     * @param path The path to save the plugin at.
+     */
+    public static void downloadResource (String name, String path) {
+        try {
+            console("Downloading " + name + " and putting it in " + path, ChatColor.GRAY);
+
+            Long resourceID = resourceList.get(name);
+            if (resourceID == null) {
+                console(name + " not found!", ChatColor.RED);
+                return;
+            }
+            URL url = new URL(REQUEST_URL + "resources/" + resourceID + "/download");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.addRequestProperty("User-Agent", USER_AGENT);
+
+            InputStream stream = connection.getInputStream();
+            File file = new File(path + name + ".jar");
+            Files.copy(stream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+            console("Finished downloading " + name + ".", ChatColor.GRAY);
+        } catch (Exception e) {
+            console(e.getMessage(), ChatColor.RED);
+            for (StackTraceElement se : e.getStackTrace()) console(se.toString(), ChatColor.RED);
+        }
     }
 }
