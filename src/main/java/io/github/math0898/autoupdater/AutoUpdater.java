@@ -2,6 +2,7 @@ package io.github.math0898.autoupdater;
 
 import io.github.math0898.autoupdater.commands.PackageCommand;
 import io.github.math0898.autoupdater.commands.UpdateCommand;
+import io.github.math0898.autoupdater.facades.SpigetFacade;
 import io.github.math0898.autoupdater.updaters.GradleBuilder;
 import io.github.math0898.autoupdater.updaters.PaperUpdater;
 import org.apache.commons.lang.SystemUtils;
@@ -97,6 +98,7 @@ public final class AutoUpdater extends JavaPlugin {
         updateManager.scheduleUpdater("Paper");
         updateManager.scheduleUpdater("AutoUpdater");
         packageManager.load();
+        SpigetFacade.queryResources();
         if (configManager.getAutoRestart())
             Bukkit.getScheduler().runTaskLater(this, AutoUpdater::restart, configManager.getRestartInterval());
     }

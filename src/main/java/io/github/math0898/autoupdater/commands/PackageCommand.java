@@ -1,5 +1,6 @@
 package io.github.math0898.autoupdater.commands;
 
+import io.github.math0898.autoupdater.facades.SpigetFacade;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.TabCompleter;
@@ -29,7 +30,10 @@ public class PackageCommand {
                 if (args[0].equalsIgnoreCase("update")) {
                     toReturn.addAll(updateManager.getUpdaters());
                     toReturn.add("all");
-                } else if (args[0].equalsIgnoreCase("install")) toReturn.addAll(packageManager.getPackages());
+                } else if (args[0].equalsIgnoreCase("install")) {
+                    toReturn.addAll(SpigetFacade.getResources());
+                    toReturn.addAll(packageManager.getPackages());
+                }
             }
             if (args.length != 1) toReturn.removeIf(s -> !s.startsWith(args[args.length - 1]));
             return toReturn;
