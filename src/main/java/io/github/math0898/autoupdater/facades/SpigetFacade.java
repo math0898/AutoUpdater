@@ -2,8 +2,12 @@ package io.github.math0898.autoupdater.facades;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
-import java.net.URL;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -28,13 +32,9 @@ public class SpigetFacade {
     public static void queryResources () {
         System.out.println("Pulling resources from spiget.");
         try {
-            URL url = new URL("https://api.spiget.org/v2/resources?fields=name&size=100000");
-            JSONArray array = (JSONArray) url.getContent();
-            array.forEach((p) -> {
-                if (p instanceof JSONObject obj) {
-                    resourceList.put((String) obj.get("name"), (Integer) obj.get("id"));
-                } else System.out.println("Not an instance of JSONObject");
-            });
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder().uri(URI.create("https://api.spiget.org/v2/resources?fields=name&size=100000")).build();
+            client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenApply(HttpResponse::body).thenApply(SpigetFacade::parseResources);
         } catch (Exception ignored) {
             ignored.printStackTrace();
         }
@@ -47,5 +47,25 @@ public class SpigetFacade {
      */
     public static Set<String> getResources () {
         return resourceList.keySet();
+    }
+
+    /**
+     * Parses the server response for the resource list into the map.
+     *
+     * @param responseBody The body of the response.
+     * @return The string body of the response.
+     */
+    public static String parseResources (String responseBody) {
+        try {
+            JSONArray array = (JSONArray) new JSONParser().parse(responseBody);
+            array.forEach((p) -> {
+                if (p instanceof JSONObject obj) {
+                    resourceList.put((String) obj.get("name"), (Integer) obj.get("id"));
+                } else System.out.println("Not an instance of JSONObject");
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return responseBody;
     }
 }

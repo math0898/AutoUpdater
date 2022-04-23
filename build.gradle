@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'io.github.math0898'
-version = '2.1.1-ALPHA'
+version = '2.1.1-ALPHA-2'
 
 repositories {
     mavenCentral()
