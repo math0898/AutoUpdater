@@ -24,7 +24,7 @@ public class SpigetFacade {
     /**
      * The master list of resources listed on Spigot.
      */
-    private static final Map<String, Integer> resourceList = new HashMap<>();
+    private static final Map<String, Long> resourceList = new HashMap<>();
 
     /**
      * Pulls the full resource list from spiget.
@@ -60,7 +60,7 @@ public class SpigetFacade {
             JSONArray array = (JSONArray) new JSONParser().parse(responseBody);
             array.forEach((p) -> {
                 if (p instanceof JSONObject obj) {
-                    resourceList.put((String) obj.get("name"), (Integer) obj.get("id"));
+                    resourceList.put((String) obj.get("name"), (Long) obj.get("id"));
                 } else System.out.println("Not an instance of JSONObject");
             });
         } catch (Exception e) {
