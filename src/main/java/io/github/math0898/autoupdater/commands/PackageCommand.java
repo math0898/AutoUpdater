@@ -36,7 +36,7 @@ public class PackageCommand {
                     toReturn.addAll(packageManager.getPackages());
                 }
             }
-            if (args.length != 1) toReturn.removeIf(s -> !s.startsWith(args[args.length - 1]));
+            if (args.length != 1) toReturn.removeIf(s -> !s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()));
             return toReturn;
         }
         return null;
