@@ -28,6 +28,7 @@ public class PackageCommand {
             if (args.length == 1) toReturn.addAll(Arrays.asList("update", "list", "install"));
             else if (args.length == 2) {
                 if (args[0].equalsIgnoreCase("update")) {
+                    toReturn.addAll(SpigetFacade.getResources());
                     toReturn.addAll(updateManager.getUpdaters());
                     toReturn.add("all");
                 } else if (args[0].equalsIgnoreCase("install")) {
@@ -50,7 +51,7 @@ public class PackageCommand {
             return true;
         }
         switch (args[0].toLowerCase()) {
-            case "install" -> packageManager.install(args[1]);
+            case "install", "update" -> packageManager.install(args[1]);
             default -> commandSender.sendMessage(ChatColor.RED + "What verb would you like?");
         }
         return true;

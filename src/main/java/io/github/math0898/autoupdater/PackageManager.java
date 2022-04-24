@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static io.github.math0898.autoupdater.facades.SpigetFacade.downloadResource;
+
 /**
  * The package manager class handles package installation, removal and in some cases updates.
  *
@@ -60,6 +62,7 @@ public class PackageManager {
      * @param name The name of the package to install.
      */
     public void install (String name) {
-        new Thread(packages.get(name)::install).start();
+        if (packages.containsKey(name)) new Thread(packages.get(name)::install).start();
+        else downloadResource(name, "./plugins/");
     }
 }
