@@ -1,6 +1,7 @@
 package io.github.math0898.autoupdater.facades;
 
 import io.github.math0898.autoupdater.ChatColor;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -78,6 +79,8 @@ public class SpigetFacade {
 
             console("Found " + resourcesFound + " resources and supporting " + resourcesSupported + ". " + ChatColor.DARK_GRAY
                     + String.format("%.2f", (resourcesSupported * 1.0 / resourcesFound) * 100) + "%", ChatColor.GREEN);
+
+            cacheResources();
         } catch (Exception e) {
             console(e.getMessage(), ChatColor.RED);
             for (StackTraceElement se : e.getStackTrace()) console(se.toString(), ChatColor.RED);
@@ -91,6 +94,22 @@ public class SpigetFacade {
      */
     public static Set<String> getResources () {
         return resourceList.keySet();
+    }
+
+    /**
+     * Caches a list of the resources the plugin found from Spiget.
+     */
+    public static void cacheResources () {
+        try {
+            YamlConfiguration cache = new YamlConfiguration();
+            for (String key : resourceList.keySet()) {
+                cache.set(key, resourceList.get(key));
+            }
+            cache.save("./AutoUpdater/cache.yml");
+        } catch (Exception e) {
+            console(e.getMessage(), ChatColor.RED);
+            for (StackTraceElement se : e.getStackTrace()) console(se.toString(), ChatColor.RED);
+        }
     }
 
     /**
