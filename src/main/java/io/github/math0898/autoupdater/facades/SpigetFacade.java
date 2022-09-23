@@ -101,11 +101,11 @@ public class SpigetFacade {
      */
     public static void cacheResources () {
         try {
-            YamlConfiguration cache = new YamlConfiguration();
+            FileWriter writer = new FileWriter("./AutoUpdater/cache.yml");
             for (String key : resourceList.keySet()) {
-                cache.set(key, resourceList.get(key));
+                writer.write(key + ": " + resourceList.get(key));
             }
-            cache.save("./AutoUpdater/cache.yml");
+            writer.close();
         } catch (Exception e) {
             console(e.getMessage(), ChatColor.RED);
             for (StackTraceElement se : e.getStackTrace()) console(se.toString(), ChatColor.RED);
