@@ -80,7 +80,6 @@ public class SpigetFacade {
             console("Found " + resourcesFound + " resources and supporting " + resourcesSupported + ". " + ChatColor.DARK_GRAY
                     + String.format("%.2f", (resourcesSupported * 1.0 / resourcesFound) * 100) + "%", ChatColor.GREEN);
 
-            cacheResources();
         } catch (Exception e) {
             console(e.getMessage(), ChatColor.RED);
             for (StackTraceElement se : e.getStackTrace()) console(se.toString(), ChatColor.RED);
@@ -99,11 +98,11 @@ public class SpigetFacade {
     /**
      * Caches a list of the resources the plugin found from Spiget.
      */
-    public static void cacheResources () {
+    public static void cacheResources () { // todo: This fails when running as a plugin.
         try {
             FileWriter writer = new FileWriter("./AutoUpdater/cache.yml");
             for (String key : resourceList.keySet()) {
-                writer.write(key + ": " + resourceList.get(key));
+                writer.write(key + ": \"" + resourceList.get(key) + "\"\n");
             }
             writer.close();
         } catch (Exception e) {

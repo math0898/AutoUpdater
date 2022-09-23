@@ -5,8 +5,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 
-import static io.github.math0898.autoupdater.facades.SpigetFacade.downloadResource;
-import static io.github.math0898.autoupdater.facades.SpigetFacade.queryResources;
+import static io.github.math0898.autoupdater.facades.SpigetFacade.*;
 
 /**
  * Main class for AutoUpdater.
@@ -64,6 +63,7 @@ public final class AutoUpdater {
     public static void main (String[] args) {
         queryResources();
         if (args.length == 2) downloadResource(args[0], args[1]);
+        cacheResources();
     }
 
     /**
